@@ -2,10 +2,13 @@ from datetime import datetime, time
 import os
 
 ARCHIVO_HORARIOS = "horarios.txt"
+ARCHIVO_ENTRADAS = "entradas.txt"
 
+
+
+#   CARGA Y GUARDADO DE HORARIOS
 
 def cargar_horarios():
-    """Carga los horarios guardados, o usa valores por defecto si el archivo no existe."""
     if not os.path.exists(ARCHIVO_HORARIOS):
         horarios = {
             1: time(6, 0),
@@ -25,14 +28,12 @@ def cargar_horarios():
 
 
 def guardar_horarios(horarios):
-    """Guarda los horarios en el archivo."""
     with open(ARCHIVO_HORARIOS, "w") as file:
         for turno, hora in horarios.items():
             file.write(f"{turno}={hora.hour}:{hora.minute}\n")
 
 
 def menu_configurar_horarios():
-    """Permite cambiar la hora de entrada de cada turno."""
     horarios = cargar_horarios()
 
     while True:
@@ -59,7 +60,7 @@ def menu_configurar_horarios():
             print("Opción no válida.")
 
 
-# REGISTRO DE ENTRADAS 
+#   REGISTRO DE ENTRADAS
 
 def determinar_estado(turno, fecha_hora):
     horarios = cargar_horarios()
@@ -73,8 +74,10 @@ def determinar_estado(turno, fecha_hora):
     except ValueError:
         return "Formato de fecha inválido"
 
-    diferencia = ((datetime.combine(datetime.today(), hora_real) -
-                   datetime.combine(datetime.today(), hora_entrada)).total_seconds()) / 60
+    diferencia = (
+        datetime.combine(datetime.today(), hora_real)
+        - datetime.combine(datetime.today(), hora_entrada)
+    ).total_seconds() / 60
 
     if diferencia <= 0:
         return "A tiempo"
@@ -110,11 +113,10 @@ def guardar_entrada(empleado, turno, fecha_hora):
         turno = 1
 
     estado = determinar_estado(turno, fecha_hora)
-    archivo = "entradas.txt"
-    registro_id = obtener_siguiente_id(archivo)
+    registro_id = obtener_siguiente_id(ARCHIVO_ENTRADAS)
 
-    with open(archivo, "a", encoding="utf-8") as f:
-        f.write(f"{registro_id} - {empleado} - Turno {turno} - {fecha_hora} - Estado: {estado}\n")
+    with open(ARCHIVO_ENTRADAS, "a", encoding="utf-8") as f:
+        f.write(f"{registro_id} - {empleado} - Turno {turno} - {fecha_hora} - Estado: {estado} - V/F: F\n")
 
     print("\nEntrada registrada correctamente:")
     print(f"Número de registro: {registro_id}")
@@ -122,16 +124,98 @@ def guardar_entrada(empleado, turno, fecha_hora):
     print(f"Turno: {turno}")
     print(f"Fecha y hora: {fecha_hora}")
     print(f"Estado: {estado}")
+    print("Visibilidad: F (oculto)")
 
 
-# MENÚ PRINCIPAL 
+#   MOSTRAR SOLO VISIBLES
+
+def mostrar_visibles():
+    if not os.path.exists(ARCHIVO_ENTRADAS):
+        print("No hay registros.")
+        return
+
+    print("\n=== REGISTROS VISIBLES (V) ===")
+    with open(ARCHIVO_ENTRADAS, "r", encoding="utf-8") as f:
+        for linea in f:
+            if "V/F: V" in linea:
+                print(linea.strip())
+
+
+#   CAMBIAR VISIBILIDAD
+
+def cambiar_visibilidad(id_registro):
+    """Cambia automáticamente V ↔ F."""
+    if not os.path.exists(ARCHIVO_ENTRADAS):
+        print("No existe el archivo de entradas.")
+        return
+
+    nuevas_lineas = []
+    encontrado = False
+
+    with open(ARCHIVO_ENTRADAS, "r", encoding="utf-8") as f:
+        lineas = f.readlines()
+
+    for linea in lineas:
+        if linea.startswith(str(id_registro) + " - "):
+            encontrado = True
+            if "V/F: F" in linea:
+                linea = linea.replace("V/F: F", "V/F: V")
+                print(f"ID {id_registro} cambiado F → V (visible).")
+            else:
+                linea = linea.replace("V/F: V", "V/F: F")
+                print(f"ID {id_registro} cambiado V → F (oculto).")
+        nuevas_lineas.append(linea)
+
+    if not encontrado:
+        print("ID no encontrado.")
+        return
+
+    with open(ARCHIVO_ENTRADAS, "w", encoding="utf-8") as f:
+        f.writelines(nuevas_lineas)
+
+
+def cambiar_visibilidad_manual(id_registro, nuevo_valor):
+    """Fuerza un valor V o F manualmente."""
+    if not os.path.exists(ARCHIVO_ENTRADAS):
+        print("No existe el archivo.")
+        return
+
+    nuevas_lineas = []
+    encontrado = False
+
+    with open(ARCHIVO_ENTRADAS, "r", encoding="utf-8") as f:
+        lineas = f.readlines()
+
+    for linea in lineas:
+        if linea.startswith(str(id_registro) + " - "):
+            encontrado = True
+            if nuevo_valor == "V":
+                linea = linea.replace("V/F: F", "V/F: V")
+            else:
+                linea = linea.replace("V/F: V", "V/F: F")
+        nuevas_lineas.append(linea)
+
+    if not encontrado:
+        print("ID no encontrado.")
+        return
+
+    with open(ARCHIVO_ENTRADAS, "w", encoding="utf-8") as f:
+        f.writelines(nuevas_lineas)
+
+    print(f"ID {id_registro} cambiado manualmente a {nuevo_valor}.")
+
+
+
+#   MENÚ PRINCIPAL
 
 def menu_principal():
     while True:
         print("\n===== SISTEMA DE EMPLEADOS =====")
         print("1. Registrar entrada")
         print("2. Configurar horarios de turnos")
-        print("3. Salir")
+        print("3. Mostrar solo registros visibles (V)")
+        print("4. Cambiar visibilidad V/F de un registro")
+        print("5. Salir")
 
         opcion = input("Selecciona una opción: ")
 
@@ -152,16 +236,37 @@ def menu_principal():
                 print("Turno no válido, se asigna Turno 1.")
                 turno = 1
 
-            fecha_hora = input("Fecha y hora de entrada (AAAA-MM-DD HH:MM:SS): ")
-
+            fecha_hora = input("Fecha y hora (AAAA-MM-DD HH:MM:SS): ")
             guardar_entrada(empleado, turno, fecha_hora)
 
         elif opcion == "2":
             menu_configurar_horarios()
 
         elif opcion == "3":
-            print("Saliendo...")
+            mostrar_visibles()
+
+        elif opcion == "4":
+            print("\n--- CAMBIAR VISIBILIDAD ---")
+            print("1. Cambiar a V (Visible)")
+            print("2. Cambiar a F (Oculto)")
+
+            sub = input("Elige una opción: ")
+
+            if sub not in ["1", "2"]:
+                print("Opción inválida.")
+                continue
+
+            try:
+                reg = int(input("ID del registro a modificar: "))
+                nuevo_valor = "V" if sub == "1" else "F"
+                cambiar_visibilidad_manual(reg, nuevo_valor)
+            except:
+                print("ID inválido.")
+
+        elif opcion == "5":
+            print("Saliendo…")
             break
+
         else:
             print("Opción inválida.")
 

@@ -1,10 +1,9 @@
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt 
 from datetime import datetime
 import os
 
-# ------------------------------------------------
-# LEE ARCHIVO DE ENTRADAS
-# ------------------------------------------------
+
+# LEE ARCHIVO DE ENTRADAS — SOLO REGISTROS VÁLIDOS (V)
 def leer_registros(archivo="entradas.txt"):
     if not os.path.exists(archivo):
         print("No existe el archivo de entradas.")
@@ -16,15 +15,26 @@ def leer_registros(archivo="entradas.txt"):
             try:
                 partes = linea.strip().split(" - ")
                 empleado = partes[1]
-                fecha_hora = partes[3]
-                estado = partes[4].replace("Estado: ", "")
-                fecha = datetime.strptime(partes[3], "%Y-%m-%d %H:%M:%S")
+
+                # Fecha y hora (antes del símbolo "|")
+                fecha_hora_str = partes[3].split("|")[0].strip()
+                fecha = datetime.strptime(fecha_hora_str, "%Y-%m-%d %H:%M:%S")
+
+                # ESTADO FINAL (V o F)
+                estado_final = linea.strip().split("|")[-1].strip()
+
+                #  FILTRO: SOLO REGISTROS VERDADEROS
+                if estado_final != "V":
+                    continue
+
+                # Estado descriptivo ("A tiempo", "Retardo", etc.)
+                estado = partes[4].replace("Estado:", "").split("|")[0].strip()
 
                 registros.append({
                     "empleado": empleado,
                     "fecha": fecha,
                     "mes": fecha.strftime("%Y-%m"),
-                    "estado": estado
+                    "estado": estado  
                 })
 
             except Exception as e:
@@ -33,14 +43,13 @@ def leer_registros(archivo="entradas.txt"):
     return registros
 
 
-# ------------------------------------------------
+
 # GRÁFICA INDIVIDUAL
-# ------------------------------------------------
 def generar_grafica_por_empleado(registros, empleado):
     datos = [r for r in registros if r["empleado"] == empleado]
 
     if not datos:
-        print(f"No hay registros para {empleado}")
+        print(f"No hay registros válidos (V) para {empleado}")
         return
 
     meses = {}
@@ -71,16 +80,19 @@ def generar_grafica_por_empleado(registros, empleado):
 
     plt.xticks(x, etiquetas)
     plt.ylabel("Cantidad")
-    plt.title(f"Asistencia mensual de {empleado}")
+    plt.title(f"Asistencia mensual de {empleado} (solo registros V)")
     plt.legend()
     plt.tight_layout()
     plt.show()
 
 
-# ------------------------------------------------
-# GRÁFICA GRUPAL (TODOS LOS EMPLEADOS)
-# ------------------------------------------------
+
+# GRÁFICA GRUPAL
 def generar_grafica_grupal(registros):
+    if not registros:
+        print("No hay registros verdaderos (V) para graficar.")
+        return
+
     empleados = {}
     for r in registros:
         emp = r["empleado"]
@@ -109,22 +121,21 @@ def generar_grafica_grupal(registros):
 
     plt.xticks(x, nombres, rotation=45)
     plt.ylabel("Cantidad")
-    plt.title("Comparación de asistencia entre empleados")
+    plt.title("Comparación de asistencia (solo registros V)")
     plt.legend()
     plt.tight_layout()
     plt.show()
 
 
-# ------------------------------------------------
-# MENÚ PRINCIPAL
-# ------------------------------------------------
+
+# MENÚ PRINCIPAL DE GRÁFICAS
 def menu_graficas():
     registros = leer_registros()
 
     while True:
         print("\n--- MENÚ DE GRÁFICAS ---")
-        print("1. Ver gráfica individual por empleado")
-        print("2. Ver gráfica grupal (todos los empleados)")
+        print("1. Ver gráfica individual por empleado (solo V)")
+        print("2. Ver gráfica grupal (solo V)")
         print("3. Salir")
 
         opcion = input("Elige una opción: ")
@@ -143,9 +154,6 @@ def menu_graficas():
         else:
             print("Opción inválida.")
 
-
-# ------------------------------------------------
-# EJECUCIÓN
-# ------------------------------------------------
+# Ejecutar si se usa directamente
 if __name__ == "__main__":
     menu_graficas()
