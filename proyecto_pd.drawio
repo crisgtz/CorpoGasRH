@@ -1,38 +1,35 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.2.8 Chrome/140.0.7339.240 Electron/38.4.0 Safari/537.36" version="28.2.8">
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36" version="29.0.3">
   <diagram name="Página-1" id="GxGe5Zl0xi-MeTfdCx7R">
-    <mxGraphModel dx="1026" dy="610" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1042" dy="626" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="AHBIrI3YOHHc81mJ3rwl-9" value="" style="rounded=0;whiteSpace=wrap;html=1;rotation=-90;" parent="1" vertex="1">
-          <mxGeometry x="-112.5" y="347.5" width="630" height="252.5" as="geometry" />
+          <mxGeometry x="3.75" y="231.25" width="397.5" height="252.5" as="geometry" />
         </mxCell>
         <mxCell id="AHBIrI3YOHHc81mJ3rwl-10" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
           <mxGeometry x="150" y="290" width="70" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="AHBIrI3YOHHc81mJ3rwl-11" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
-          <mxGeometry x="150" y="490" width="70" height="152.5" as="geometry" />
+        <mxCell id="AHBIrI3YOHHc81mJ3rwl-31" value="El sistema debe guardar el registro en el archivo correspondiente." style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" parent="1" vertex="1">
+          <mxGeometry x="401.25" y="120" width="250" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="AHBIrI3YOHHc81mJ3rwl-31" value="&lt;span style=&quot;text-align: left;&quot;&gt;el supervisor devra poder ver los registros in gresados&amp;nbsp;&lt;/span&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" parent="1" vertex="1">
-          <mxGeometry x="420" y="190" width="240" height="60" as="geometry" />
+        <mxCell id="AHBIrI3YOHHc81mJ3rwl-32" value="&lt;h1 style=&quot;text-align: left; margin-top: 0px;&quot;&gt;&lt;span style=&quot;font-size: 12px; font-weight: 400;&quot;&gt;&amp;nbsp;El sistema deberá iniciar solicitando un inicio de sesión.&lt;/span&gt;&lt;/h1&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" parent="1" vertex="1">
+          <mxGeometry x="400" y="231.25" width="250" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="AHBIrI3YOHHc81mJ3rwl-32" value="&lt;h1 style=&quot;text-align: left; margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px; font-weight: normal;&quot;&gt;mantener un registro de la hora de entrada de los trabajadores&amp;nbsp;&lt;/span&gt;&lt;/h1&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" parent="1" vertex="1">
-          <mxGeometry x="420" y="300" width="240" height="60" as="geometry" />
+        <mxCell id="AHBIrI3YOHHc81mJ3rwl-33" value="&lt;div style=&quot;text-align: left;&quot;&gt;Debe permitir seleccionar entre turno 1, 2 o 3.&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" parent="1" vertex="1">
+          <mxGeometry x="400" y="330" width="250" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="AHBIrI3YOHHc81mJ3rwl-33" value="&lt;span style=&quot;text-align: left;&quot;&gt;encontra&amp;nbsp; variaciones en las entrdas de los tran&lt;/span&gt;&lt;span style=&quot;text-align: left; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;bajaores&amp;nbsp;&lt;/span&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" parent="1" vertex="1">
-          <mxGeometry x="414" y="450" width="270" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="AHBIrI3YOHHc81mJ3rwl-34" value="&lt;h1 style=&quot;text-align: left; margin-top: 0px;&quot;&gt;&lt;br&gt;&lt;/h1&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" parent="1" vertex="1">
-          <mxGeometry x="404" y="630" width="290" height="92.5" as="geometry" />
+        <mxCell id="AHBIrI3YOHHc81mJ3rwl-34" value="&lt;h1 style=&quot;text-align: justify; margin-top: 0px;&quot;&gt;&lt;font style=&quot;font-weight: normal; font-size: 12px;&quot;&gt;El sitema dera de registrar la hora de entrada de los trabajadores&amp;nbsp;&lt;/font&gt;&lt;/h1&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="401.25" y="460" width="258.75" height="92.5" as="geometry" />
         </mxCell>
         <mxCell id="AHBIrI3YOHHc81mJ3rwl-37" value="supervisor&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="150" y="410" width="70" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="AHBIrI3YOHHc81mJ3rwl-38" value="trabajador&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="150" y="650" width="80" height="32.5" as="geometry" />
+        <mxCell id="XyzNdV0qSlMeufWBY4et-1" value="Debe permitir cambiar la hora de entrada programada de cada turno." style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" parent="1" vertex="1">
+          <mxGeometry x="400" y="720" width="286" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="XyzNdV0qSlMeufWBY4et-1" value="" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
-          <mxGeometry x="414" y="800" width="286" height="80" as="geometry" />
+        <mxCell id="XyzNdV0qSlMeufWBY4et-17" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;El sitema devera de poder&amp;nbsp; motrar un registro de la hora de entrada&amp;nbsp;&lt;/blockquote&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" parent="1" vertex="1">
+          <mxGeometry x="401.25" y="610" width="298.75" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
