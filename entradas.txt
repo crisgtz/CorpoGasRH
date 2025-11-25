@@ -10,4 +10,4 @@
 14 - don juan - Turno 3 - 2025-10-29 22:00:00 - Estado: A tiempo
 15 - martin - Turno 1 - 2025-10-30 02:56:00 - Estado: A tiempo
 17 - guillermo - Turno 1 - 2025-10-30 02:50:00 - Estado: A tiempo
-18 - lupe - Turno 2 - 24-11-2025 20:05 - Estado: Formato de fecha inválido - V/F: F
+
