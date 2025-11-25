@@ -1,7 +1,7 @@
 5 - don juan - Turno 3 - 2025-10-28 22:00:00 - Estado: A tiempo
 6 - don pepe - Turno 3 - 2025-10-28 22:00:00 - Estado: A tiempo
 7 - beto - Turno 2 - 2025-10-28 14:00:00 - Estado: A tiempo
-8 - guillermo - Turno 2 - 2025-10-28 14:00:00 - Estado: A tiempo
+8 - guillermo - Turno 2 - 2025-10-28 14:00:00 - V/F: V
 9 - guillermo - Turno 1 - 2025-10-29 06:00:00 - Estado: A tiempo
 10 - antonio - Turno 1 - 2025-10-29 06:00:00 - Estado: A tiempo
 11 - ivan - Turno 2 - 2025-10-29 14:00:00 - Estado: A tiempo
@@ -10,3 +10,4 @@
 14 - don juan - Turno 3 - 2025-10-29 22:00:00 - Estado: A tiempo
 15 - martin - Turno 1 - 2025-10-30 02:56:00 - Estado: A tiempo
 17 - guillermo - Turno 1 - 2025-10-30 02:50:00 - Estado: A tiempo
+18 - lupe - Turno 2 - 24-11-2025 20:05 - Estado: Formato de fecha inválido - V/F: F

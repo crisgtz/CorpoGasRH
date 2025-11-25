@@ -5,7 +5,6 @@ ARCHIVO_HORARIOS = "horarios.txt"
 ARCHIVO_ENTRADAS = "entradas.txt"
 
 
-
 #   CARGA Y GUARDADO DE HORARIOS
 
 def cargar_horarios():
@@ -60,7 +59,7 @@ def menu_configurar_horarios():
             print("Opción no válida.")
 
 
-#   REGISTRO DE ENTRADAS
+#        REGISTRO DE ENTRADAS
 
 def determinar_estado(turno, fecha_hora):
     horarios = cargar_horarios()
@@ -127,7 +126,7 @@ def guardar_entrada(empleado, turno, fecha_hora):
     print("Visibilidad: F (oculto)")
 
 
-#   MOSTRAR SOLO VISIBLES
+#     MOSTRAR SOLO VISIBLES
 
 def mostrar_visibles():
     if not os.path.exists(ARCHIVO_ENTRADAS):
@@ -141,10 +140,10 @@ def mostrar_visibles():
                 print(linea.strip())
 
 
-#   CAMBIAR VISIBILIDAD
+#     CAMBIAR VISIBILIDAD (Robusto)
 
 def cambiar_visibilidad(id_registro):
-    """Cambia automáticamente V ↔ F."""
+    """Cambia V ↔ F automáticamente sin importar espacios o formato."""
     if not os.path.exists(ARCHIVO_ENTRADAS):
         print("No existe el archivo de entradas.")
         return
@@ -156,14 +155,21 @@ def cambiar_visibilidad(id_registro):
         lineas = f.readlines()
 
     for linea in lineas:
-        if linea.startswith(str(id_registro) + " - "):
+        partes = linea.strip().split(" - ")
+
+        if partes[0] == str(id_registro):
             encontrado = True
-            if "V/F: F" in linea:
-                linea = linea.replace("V/F: F", "V/F: V")
-                print(f"ID {id_registro} cambiado F → V (visible).")
-            else:
-                linea = linea.replace("V/F: V", "V/F: F")
-                print(f"ID {id_registro} cambiado V → F (oculto).")
+
+            # Obtener visibilidad actual, sin importar espacios
+            vis_actual = partes[-1].replace("V/F:", "").strip().upper()
+
+            nueva = "V" if vis_actual == "F" else "F"
+
+            base = " - ".join(partes[:-1])
+            linea = f"{base} - V/F: {nueva}\n"
+
+            print(f"ID {id_registro} cambiado {vis_actual} → {nueva}.")
+
         nuevas_lineas.append(linea)
 
     if not encontrado:
@@ -175,7 +181,7 @@ def cambiar_visibilidad(id_registro):
 
 
 def cambiar_visibilidad_manual(id_registro, nuevo_valor):
-    """Fuerza un valor V o F manualmente."""
+    """Cambia V o F manualmente sin depender del formato de la línea."""
     if not os.path.exists(ARCHIVO_ENTRADAS):
         print("No existe el archivo.")
         return
@@ -187,12 +193,13 @@ def cambiar_visibilidad_manual(id_registro, nuevo_valor):
         lineas = f.readlines()
 
     for linea in lineas:
-        if linea.startswith(str(id_registro) + " - "):
+        partes = linea.strip().split(" - ")
+
+        if partes[0] == str(id_registro):
             encontrado = True
-            if nuevo_valor == "V":
-                linea = linea.replace("V/F: F", "V/F: V")
-            else:
-                linea = linea.replace("V/F: V", "V/F: F")
+            base = " - ".join(partes[:-1])
+            linea = f"{base} - V/F: {nuevo_valor}\n"
+
         nuevas_lineas.append(linea)
 
     if not encontrado:
@@ -205,8 +212,7 @@ def cambiar_visibilidad_manual(id_registro, nuevo_valor):
     print(f"ID {id_registro} cambiado manualmente a {nuevo_valor}.")
 
 
-
-#   MENÚ PRINCIPAL
+#          MENÚ PRINCIPAL
 
 def menu_principal():
     while True:

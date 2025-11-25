@@ -1,8 +1,6 @@
 from Registro_empleados import (
     guardar_entrada,
-    cambiar_visibilidad,
-    cambiar_visibilidad_manual,
-    mostrar_visibles
+    cambiar_visibilidad_manual
 )
 from Consultar_enteradas import consultar_entradas
 from Grafica import menu_graficas
@@ -16,9 +14,8 @@ def menu():
         print("2. Consultar entradas")
         print("3. Ver gráficas")
         print("4. Configurar horarios de turnos")
-        print("5. Mostrar solo registros visibles (V)")
-        print("6. Cambiar visibilidad V/F de un registro")
-        print("7. Salir")
+        print("5. Cambiar visibilidad V/F de un registro")
+        print("6. Salir")
 
         opcion = input("Selecciona una opción: ")
 
@@ -47,13 +44,9 @@ def menu():
         elif opcion == "4":
             menu_configurar_horarios()
 
-        # 5. Mostrar solo visibles
+        # 5. Cambiar visibilidad V/F
         elif opcion == "5":
-            mostrar_visibles()
-
-        # 6. Cambiar visibilidad V/F
-        elif opcion == "6":
-            print("\n--- CAMBIAR VISIBILIDAD ---")
+            print("\n--- CAMBIAR VISIBILIDAD DEL REGISTRO ---")
             print("1. Cambiar a V (Visible)")
             print("2. Cambiar a F (Oculto)")
 
@@ -70,8 +63,8 @@ def menu():
             except:
                 print("ID inválido.")
 
-        # 7. Salir
-        elif opcion == "7":
+        # 6. Salir
+        elif opcion == "6":
             print("Saliendo del sistema...")
             break
 
