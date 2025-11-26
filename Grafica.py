@@ -1,141 +1,159 @@
-import matplotlib.pyplot as plt 
-from datetime import datetime
+import matplotlib.pyplot as plt
+from datetime import datetime, time
 import os
 
 
-# LEE ARCHIVO DE ENTRADAS — SOLO REGISTROS VÁLIDOS (V)
+# ==========================================================
+#             CALCULAR ESTADO (A tiempo / Retardo)
+# ==========================================================
+
+# Horarios esperados por turno
+HORARIOS = {
+    "Turno 1": time(6, 0),
+    "Turno 2": time(14, 0),
+    "Turno 3": time(22, 0)
+}
+
+def calcular_estado(turno, fecha):
+    if turno not in HORARIOS:
+        return "Desconocido"
+
+    hora_entrada = HORARIOS[turno]
+    hora_real = fecha.time()
+
+    if hora_real <= hora_entrada:
+        return "A tiempo"
+    else:
+        return "Retardo"
+
+
+# ==========================================================
+#                LECTURA CORRECTA DE REGISTROS
+# ==========================================================
+
 def leer_registros(archivo="entradas.txt"):
     if not os.path.exists(archivo):
         print("No existe el archivo de entradas.")
         return []
 
     registros = []
+
     with open(archivo, "r", encoding="utf-8") as f:
         for linea in f:
             try:
                 partes = linea.strip().split(" - ")
-                empleado = partes[1]
 
-                # Fecha y hora (antes del símbolo "|")
-                fecha_hora_str = partes[3].split("|")[0].strip()
+                id_registro = partes[0]
+                empleado = partes[1]
+                turno = partes[2]              # Turno 1, Turno 2, Turno 3
+                fecha_hora_str = partes[3]     # 2025-10-30 02:56:00
+                visibilidad = partes[4].split(":")[1].strip()  # V o F
+
+                if visibilidad != "V":
+                    continue  # Solo graficar visibles
+
                 fecha = datetime.strptime(fecha_hora_str, "%Y-%m-%d %H:%M:%S")
 
-                # ESTADO FINAL (V o F)
-                estado_final = linea.strip().split("|")[-1].strip()
-
-                #  FILTRO: SOLO REGISTROS VERDADEROS
-                if estado_final != "V":
-                    continue
-
-                # Estado descriptivo ("A tiempo", "Retardo", etc.)
-                estado = partes[4].replace("Estado:", "").split("|")[0].strip()
+                # Calcular estado automáticamente
+                estado = calcular_estado(turno, fecha)
 
                 registros.append({
                     "empleado": empleado,
                     "fecha": fecha,
                     "mes": fecha.strftime("%Y-%m"),
-                    "estado": estado  
+                    "estado": estado,
                 })
 
             except Exception as e:
-                print("Error procesando línea:", linea, e)
+                print("Error en línea:", linea, e)
 
     return registros
 
 
 
-# GRÁFICA INDIVIDUAL
+# ==========================================================
+#               GRÁFICA POR EMPLEADO
+# ==========================================================
+
 def generar_grafica_por_empleado(registros, empleado):
     datos = [r for r in registros if r["empleado"] == empleado]
 
     if not datos:
-        print(f"No hay registros válidos (V) para {empleado}")
+        print(f"No hay registros (V) para {empleado}")
         return
 
     meses = {}
     for r in datos:
         mes = r["mes"]
         if mes not in meses:
-            meses[mes] = {"A tiempo": 0, "Retardo": 0, "Falta": 0}
+            meses[mes] = {"A tiempo": 0, "Retardo": 0}
 
-        if "Retardo" in r["estado"]:
-            meses[mes]["Retardo"] += 1
-        elif "A tiempo" in r["estado"]:
-            meses[mes]["A tiempo"] += 1
-        elif "Falta" in r["estado"]:
-            meses[mes]["Falta"] += 1
+        meses[mes][r["estado"]] += 1
 
     etiquetas = list(meses.keys())
     a_tiempo = [meses[m]["A tiempo"] for m in etiquetas]
     retardos = [meses[m]["Retardo"] for m in etiquetas]
-    faltas = [meses[m]["Falta"] for m in etiquetas]
 
     plt.figure(figsize=(10, 6))
-
     x = range(len(etiquetas))
+
     plt.bar(x, a_tiempo, label="A tiempo")
-    plt.bar(x, retardos, bottom=a_tiempo, label="Retardos")
-    bottom_sum = [a_tiempo[i] + retardos[i] for i in range(len(a_tiempo))]
-    plt.bar(x, faltas, bottom=bottom_sum, label="Faltas")
+    plt.bar(x, retardos, bottom=a_tiempo, label="Retardo")
 
     plt.xticks(x, etiquetas)
     plt.ylabel("Cantidad")
-    plt.title(f"Asistencia mensual de {empleado} (solo registros V)")
+    plt.title(f"Asistencia mensual de {empleado} (solo V)")
     plt.legend()
-    plt.tight_layout()
     plt.show()
 
 
 
-# GRÁFICA GRUPAL
+# ==========================================================
+#               GRÁFICA GRUPAL
+# ==========================================================
+
 def generar_grafica_grupal(registros):
     if not registros:
-        print("No hay registros verdaderos (V) para graficar.")
+        print("No hay registros (V) para graficar.")
         return
 
     empleados = {}
     for r in registros:
         emp = r["empleado"]
         if emp not in empleados:
-            empleados[emp] = {"A tiempo": 0, "Retardo": 0, "Falta": 0}
+            empleados[emp] = {"A tiempo": 0, "Retardo": 0}
 
-        if "Retardo" in r["estado"]:
-            empleados[emp]["Retardo"] += 1
-        elif "A tiempo" in r["estado"]:
-            empleados[emp]["A tiempo"] += 1
-        elif "Falta" in r["estado"]:
-            empleados[emp]["Falta"] += 1
+        empleados[emp][r["estado"]] += 1
 
     nombres = list(empleados.keys())
     a_tiempo = [empleados[e]["A tiempo"] for e in nombres]
     retardos = [empleados[e]["Retardo"] for e in nombres]
-    faltas = [empleados[e]["Falta"] for e in nombres]
 
     plt.figure(figsize=(12, 6))
-
     x = range(len(nombres))
+
     plt.bar(x, a_tiempo, label="A tiempo")
-    plt.bar(x, retardos, bottom=a_tiempo, label="Retardos")
-    bottom_sum = [a_tiempo[i] + retardos[i] for i in range(len(a_tiempo))]
-    plt.bar(x, faltas, bottom=bottom_sum, label="Faltas")
+    plt.bar(x, retardos, bottom=a_tiempo, label="Retardo")
 
     plt.xticks(x, nombres, rotation=45)
     plt.ylabel("Cantidad")
-    plt.title("Comparación de asistencia (solo registros V)")
+    plt.title("Comparación de asistencia (solo V)")
     plt.legend()
-    plt.tight_layout()
     plt.show()
 
 
 
-# MENÚ PRINCIPAL DE GRÁFICAS
+# ==========================================================
+#                       MENÚ
+# ==========================================================
+
 def menu_graficas():
     registros = leer_registros()
 
     while True:
         print("\n--- MENÚ DE GRÁFICAS ---")
-        print("1. Ver gráfica individual por empleado (solo V)")
-        print("2. Ver gráfica grupal (solo V)")
+        print("1. Ver gráfica individual por empleado")
+        print("2. Ver gráfica grupal")
         print("3. Salir")
 
         opcion = input("Elige una opción: ")
@@ -148,12 +166,12 @@ def menu_graficas():
             generar_grafica_grupal(registros)
 
         elif opcion == "3":
-            print("Saliendo...")
             break
 
         else:
             print("Opción inválida.")
 
-# Ejecutar si se usa directamente
+
+
 if __name__ == "__main__":
     menu_graficas()

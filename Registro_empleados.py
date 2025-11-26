@@ -37,9 +37,9 @@ def menu_configurar_horarios():
 
     while True:
         print("\n=== CONFIGURAR HORARIOS DE TURNOS ===")
-        print(f"1. Turno 1 → {horarios[1].hour}:{horarios[1].minute:02d}")
-        print(f"2. Turno 2 → {horarios[2].hour}:{horarios[2].minute:02d}")
-        print(f"3. Turno 3 → {horarios[3].hour}:{horarios[3].minute:02d}")
+        print(f"1. Turno 1 = {horarios[1].hour}:{horarios[1].minute:02d}")
+        print(f"2. Turno 2 = {horarios[2].hour}:{horarios[2].minute:02d}")
+        print(f"3. Turno 3 = {horarios[3].hour}:{horarios[3].minute:02d}")
         print("4. Volver al menú principal")
 
         op = input("Selecciona el turno a modificar: ")
@@ -230,9 +230,9 @@ def menu_principal():
 
             horarios = cargar_horarios()
             print("\nSelecciona turno:")
-            print(f"1. Turno 1 → {horarios[1].hour}:{horarios[1].minute:02d}")
-            print(f"2. Turno 2 → {horarios[2].hour}:{horarios[2].minute:02d}")
-            print(f"3. Turno 3 → {horarios[3].hour}:{horarios[3].minute:02d}")
+            print(f"1. Turno 1 = {horarios[1].hour}:{horarios[1].minute:02d}")
+            print(f"2. Turno 2 = {horarios[2].hour}:{horarios[2].minute:02d}")
+            print(f"3. Turno 3 = {horarios[3].hour}:{horarios[3].minute:02d}")
 
             try:
                 turno = int(input("Turno (1-3): "))

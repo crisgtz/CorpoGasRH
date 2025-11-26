@@ -43,7 +43,7 @@ def mostrar_registros(filtro="TODOS"):
         def obtener_fecha(entrada):
             try:
                 partes = entrada.split(" - ")
-                fecha_hora_str = partes[3].split(" | ")[0].strip()
+                fecha_hora_str = partes[3].split(" V/F ")[0].strip()
                 return datetime.strptime(fecha_hora_str, "%Y-%m-%d %H:%M:%S")
             except:
                 return datetime.min
@@ -54,7 +54,7 @@ def mostrar_registros(filtro="TODOS"):
         print("\n=== RESULTADOS ===\n")
 
         for entrada in entradas_ordenadas:
-            estado = entrada.split("|")[-1].strip()
+            estado = entrada.split("V/F")[-1].strip()
 
             if filtro == "V" and estado != "V":
                 continue
