@@ -2,10 +2,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime, time
 import os
 
-
-# ==========================================================
-#             CALCULAR ESTADO (A tiempo / Retardo)
-# ==========================================================
+# CALCULAR ESTADO (A tiempo / Retardo)
 
 # Horarios esperados por turno
 HORARIOS = {
@@ -27,9 +24,7 @@ def calcular_estado(turno, fecha):
         return "Retardo"
 
 
-# ==========================================================
 #                LECTURA CORRECTA DE REGISTROS
-# ==========================================================
 
 def leer_registros(archivo="entradas.txt"):
     if not os.path.exists(archivo):
@@ -70,10 +65,8 @@ def leer_registros(archivo="entradas.txt"):
     return registros
 
 
+# GRÁFICA POR EMPLEADO
 
-# ==========================================================
-#               GRÁFICA POR EMPLEADO
-# ==========================================================
 
 def generar_grafica_por_empleado(registros, empleado):
     datos = [r for r in registros if r["empleado"] == empleado]
@@ -107,10 +100,8 @@ def generar_grafica_por_empleado(registros, empleado):
     plt.show()
 
 
+#  GRÁFICA GRUPAL
 
-# ==========================================================
-#               GRÁFICA GRUPAL
-# ==========================================================
 
 def generar_grafica_grupal(registros):
     if not registros:
@@ -143,9 +134,9 @@ def generar_grafica_grupal(registros):
 
 
 
-# ==========================================================
-#                       MENÚ
-# ==========================================================
+
+# MENU DE GRAFICAS 
+
 
 def menu_graficas():
     registros = leer_registros()
