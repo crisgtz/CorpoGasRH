@@ -1,7 +1,7 @@
 from datetime import datetime
 
 def consultar_entradas():
-    """Menú para mostrar registros según su estado V/F."""
+    #Menú para mostrar registros según su estado V/F.
 
     while True:
         print("\n=== CONSULTAR ENTRADAS ===")
@@ -29,7 +29,7 @@ def consultar_entradas():
 
 
 def mostrar_registros(filtro="TODOS"):
-    """Lee el archivo y muestra registros filtrados por V/F y ordenados por fecha."""
+    #Lee el archivo y muestra registros filtrados por V/F y ordenados por fecha.
 
     try:
         with open("entradas.txt", "r", encoding="utf-8") as f:

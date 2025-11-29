@@ -5,7 +5,7 @@ ARCHIVO_HORARIOS = "horarios.txt"
 ARCHIVO_ENTRADAS = "entradas.txt"
 
 
-#   CARGA Y GUARDADO DE HORARIOS
+# CARGA Y GUARDAR HORARIOS
 
 def cargar_horarios():
     if not os.path.exists(ARCHIVO_HORARIOS):
