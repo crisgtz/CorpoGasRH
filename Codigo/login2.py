@@ -50,3 +50,12 @@ class Ui_Dialog(object):
         self.lePass.setPlaceholderText(_translate("Dialog", "Ingresa tu Contraseña"))
         self.btnIngresar.setText(_translate("Dialog", "INGRESAR"))
 import loginprueba_rc
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())
